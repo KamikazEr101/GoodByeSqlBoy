@@ -1,8 +1,13 @@
 from core.agents.agents import *
+from config import settings
 
-sql_generator_agent = get_sql_generator_agent()
-critic_agent = get_critic_agent()
-optimize_agent = get_optimize_agent()
-conclusion_agent = get_conclusion_agent()
+agent_list = [get_sql_generator_agent()]
 
-__all__ = [sql_generator_agent, critic_agent, optimize_agent,conclusion_agent]
+if settings.ENABLE_CRITIC_AGENT:
+    agent_list.append(get_critic_agent())
+if settings.ENABLE_OPTIMIZE_AGENT:
+    agent_list.append(get_optimize_agent())
+
+agent_list.append(get_conclusion_agent())
+
+__all__ = [agent_list]

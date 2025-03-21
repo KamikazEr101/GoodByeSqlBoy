@@ -1,25 +1,16 @@
 from numba.cuda.cudadrv.devicearray import lru_cache
 
-from core.agents import sql_generator_agent, critic_agent, optimize_agent, conclusion_agent
+from core.agents import agent_list
 from config import settings
 from core.termination import termination
 
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
 
-participant_agent=[sql_generator_agent]
-
-if settings.ENABLE_CRITIC_AGENT:
-    participant_agent.append(critic_agent)
-if settings.ENABLE_OPTIMIZE_AGENT:
-    participant_agent.append(optimize_agent)
-
-participant_agent.append(conclusion_agent)
-
 @lru_cache
 def get_rrgc_team():
     return RoundRobinGroupChat(
-        participants=participant_agent,
+        participants=agent_list,
         termination_condition=termination,
     )
 
