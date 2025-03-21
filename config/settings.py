@@ -9,6 +9,9 @@ load_dotenv()
 
 # 全局配置
 class Settings(BaseSettings):
+    # 数据库配置
+    DATA_BASE_TYPE: str = Field(default='MYSQL')
+
     # API配置
     API_V1_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "GoodbyeSqlBoy"
@@ -27,11 +30,11 @@ class Settings(BaseSettings):
 
     # Team配置
     ENABLE_SELECTOR_TEAM: bool = Field(default=False)
-    MAX_CONTEXT_MESSAGES: int = Field(default=6)
+    MAX_CONTEXT_MESSAGES: int = Field(default=8)
 
     @validator('MAX_CONTEXT_MESSAGES')
     def ensure_min_max_context_messages(cls, v):
-        return max(v, 6)
+        return max(v, 8)
 
     # 性能调优
     MAX_RETRIES: int = Field(default=3)
