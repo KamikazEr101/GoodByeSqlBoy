@@ -11,5 +11,3 @@ pool = redis.ConnectionPool(host=host, port=port, db=0, decode_responses=True)
 def get_redis_template():
     return redis.Redis(connection_pool=pool)
 
-if __name__ == '__main__':
-    redis_template = get_redis_template()

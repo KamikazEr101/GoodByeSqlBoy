@@ -5,7 +5,7 @@ from autogen_ext.models.ollama import OllamaChatCompletionClient
 from config import settings
 
 model_client = OpenAIChatCompletionClient(
-    model="gpt-4o-mini",
+    model=settings.MODEL_NAME,
     api_key=settings.OPENAI_API_KEY,
 )
 

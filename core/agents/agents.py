@@ -17,7 +17,7 @@ def get_sql_generator_agent():
         name="sql_generator_agent",
         model_client=model_client,
         tools=[read_sql_file_tool],
-        description='专门根据自然语言生成SQL查询的智能体，擅长理解表结构并构建复杂查询',
+        description='专门根据自然语言生成SQL查询的智能体，擅长理解表结构并构建复杂查询的SQL语句',
         system_message=f"""你是一个专业的SQL生成智能体，负责将自然语言转换为精确的SQL查询语句, 数据库为{settings.DATA_BASE_TYPE}。
 
         工作流程：
@@ -76,8 +76,8 @@ def get_critic_agent():
 def get_optimize_agent():
     return AssistantAgent(
         name='optimize_agent',
-        tools=[read_sql_file_tool],
         model_client=model_client,
+        tools=[read_sql_file_tool],
         description='专门优化SQL查询性能的智能体，提高查询效率',
         system_message=f"""你是一个专业的SQL优化智能体，负责提高SQL查询的执行效率, 数据库为{settings.DATA_BASE_TYPE}。
         工作流程：

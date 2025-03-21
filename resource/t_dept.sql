@@ -1,6 +1,4 @@
--- ----------------------------
 -- Table structure for t_dept
--- ----------------------------
 DROP TABLE IF EXISTS `t_dept`;
 CREATE TABLE `t_dept`  (
   `dept_id` bigint NOT NULL AUTO_INCREMENT,

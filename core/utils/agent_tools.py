@@ -21,7 +21,7 @@ def read_sql_file() -> str:
                 with open(file_path, 'r', encoding='utf-8') as file:
                     sql_contents+=file.read()
 
-    return sql_contents
+    return "数据库的表结构如下, 请根据此结构生成或优化SQL: \n" + sql_contents
 
 if __name__ == '__main__':
     sql_contents = read_sql_file()

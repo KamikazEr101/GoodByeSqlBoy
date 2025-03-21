@@ -1,6 +1,4 @@
--- ----------------------------
 -- Table structure for t_emp
--- ----------------------------
 DROP TABLE IF EXISTS `t_emp`;
 CREATE TABLE `t_emp`  (
   `emp_id` bigint NOT NULL AUTO_INCREMENT,

@@ -12,11 +12,8 @@ class Settings(BaseSettings):
     # 数据库配置
     DATA_BASE_TYPE: str = Field(default='MYSQL')
 
-    # API配置
-    API_V1_PREFIX: str = "/api/v1"
-    PROJECT_NAME: str = "GoodbyeSqlBoy"
-
     # Redis配置
+    ENABLE_REDIS: bool = Field(default=True)
     REDIS_HOST: str = Field(default="localhost")
     REDIS_PORT: int = Field(default=6379)
     REDIS_DB: int = Field(default=0)
@@ -26,7 +23,8 @@ class Settings(BaseSettings):
 
     # Agent配置
     OPENAI_API_KEY: str = Field(default="")
-    ENABLE_OPTIMIZE_AGENT: bool = Field(default=True)
+    MODEL_NAME: str = Field(default="gpt-4o-mini")
+    ENABLE_OPTIMIZE_AGENT: bool = Field(default=False)
 
     # Team配置
     ENABLE_SELECTOR_TEAM: bool = Field(default=False)

@@ -20,19 +20,21 @@ class SQLGenerateRRGCTeam:
                         )
 
     async def generate_sql(self, natural_language: str) -> str:
+        await self.core_team.reset()
         # async for msg in self.core_team.run_stream(task=natural_language):
         #     if isinstance(msg, TaskResult):
         #         target_sql = msg.messages[-1].content
-        #
-        # self.__save_in_redis(natural_language, target_sql)
         result = await Console(
             self.core_team.run_stream(task=natural_language),
             output_stats=True,
         )
-        return result.messages[-1].content
+        target_sql = result.messages[-1].content
+        self.__save_in_redis(natural_language, target_sql)
+        return target_sql
 
     def __save_in_redis(self, k: str, v: str) -> None:
-        redis_template.set(hash_utils.sha256_encrypt(k), v, ex=settings.REDIS_TTL)
+        if settings.ENABLE_REDIS:
+            redis_template.set(hash_utils.sha256_encrypt(k), v, ex=settings.REDIS_TTL)
 
 @lru_cache
 def get_team():
