@@ -12,6 +12,7 @@ from core.cache import redis_template
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.base import TaskResult
 
+# RoundRobinGroupChatTeam
 class SQLGenerateRRGCTeam:
     def __init__(self):
         self.core_team = RoundRobinGroupChat(

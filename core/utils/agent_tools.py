@@ -1,6 +1,7 @@
 import os
 from config import settings
 
+# 读取sql建表语句的tool
 def read_sql_file() -> str:
     path_ = settings.SQL_FILE_PATH
     sql_contents=''
@@ -22,7 +23,3 @@ def read_sql_file() -> str:
                     sql_contents+=file.read()
 
     return "数据库的表结构如下, 请根据此结构生成或优化SQL: \n" + sql_contents
-
-if __name__ == '__main__':
-    sql_contents = read_sql_file()
-    print(sql_contents)

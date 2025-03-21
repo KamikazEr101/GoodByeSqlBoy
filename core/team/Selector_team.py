@@ -14,6 +14,7 @@ from autogen_agentchat.messages import AgentEvent, ChatMessage
 from autogen_agentchat.teams import SelectorGroupChat
 from autogen_agentchat.base import TaskResult
 
+# 自定义选择器方法, sql_generator_agent -> critic_agent -> optimize_agent(可选) * 2 -> conclusion_agent
 def custom_selector_func(messages: Sequence[AgentEvent | ChatMessage]) -> str | None:
     if messages[-1].source=='sql_generator_agent':
         return 'critic_agent'
@@ -33,6 +34,7 @@ def custom_selector_func(messages: Sequence[AgentEvent | ChatMessage]) -> str | 
 
     return None
 
+# SelectorTeam
 class SelectorTeam:
     def __init__(self):
         self.selector_prompt="""You are a workflow coordinator for a team of SQL generation agents. Your job is to determine which agent should handle the current state of the conversation.

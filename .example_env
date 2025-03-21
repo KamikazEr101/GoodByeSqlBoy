@@ -1,16 +1,18 @@
-OPENAI_API_KEY=<your openai api key here>
-MODEL_NAME=gpt-4o
+OPENAI_API_KEY=<your openai api key here> # 默认使用OPENAI, 此处为openai的apikey
+MODEL_NAME=gpt-4o-mini # 使用模型的名称, 建议使用reasoning model, 传统大模型读取建表语句生成的sql语句有些鸡肋
 
-ENABLE_REDIS=True
-REDIS_HOST=192.168.230.101
-REDIS_PORT=6379
+CONSOLE_INPUT=True # 是否开启控制台交互, 默认False, 即默认为以对外暴露接口的HTTP交互
 
-ENABLE_OPTIMIZE_AGENT=True
+ENABLE_REDIS=False # 是否开启redis缓存, 若不开启, 以下两条可删除
+REDIS_HOST=192.168.230.101 # redis的host地址
+REDIS_PORT=6379 # redis端口
 
-SQL_FILE_PATH=D:\PycharmProject\GoodByeSqlBoy\resource
+ENABLE_OPTIMIZE_AGENT=True # 是否开启sql优化智能体, 开启会增加时间消耗
 
-ENABLE_SELECTOR_TEAM=True
+SQL_FILE_PATH=D:\PycharmProject\GoodByeSqlBoy\resource # 存放建表sql语句的路径, 暂不支持相对路径
 
-MAX_CONTEXT_MESSAGES=15
+ENABLE_SELECTOR_TEAM=True # 是否开启SelectorTeam, 默认不开启, 使用RobinRoundGroupChat, 开启更耗时, 更会相对更准确
 
-DATA_BASE_TYPE=MYSQL
+MAX_CONTEXT_MESSAGES=15 # 最大上下文消息数, 默认8条, 低于8条会强制转为8条
+
+DATA_BASE_TYPE=MYSQL # 使用的数据库
