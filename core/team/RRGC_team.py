@@ -1,23 +1,37 @@
-from numba.cuda.cudadrv.devicearray import lru_cache
+from functools import lru_cache
 
+from autogen_agentchat.ui import Console
+
+from core.utils import hash_utils
+from core.cache import redis_template
 from core.agents import agent_list
 from config import settings
 from core.termination import termination
+from core.cache import redis_template
 
 from autogen_agentchat.teams import RoundRobinGroupChat
-from autogen_agentchat.ui import Console
+from autogen_agentchat.base import TaskResult
+
+class SQLGenerateRRGCTeam:
+    def __init__(self):
+        self.core_team = RoundRobinGroupChat(
+                            participants=agent_list,
+                            termination_condition=termination,
+                        )
+
+    async def generate_sql(self, natural_language: str) -> str:
+        target_sql = ''
+        async for msg in self.core_team.run_stream(task=natural_language):
+            if isinstance(msg, TaskResult):
+                target_sql = msg.messages[-1].content
+
+        self.__save_in_redis(natural_language, target_sql)
+        return target_sql
+
+    def __save_in_redis(self, k: str, v: str) -> None:
+        redis_template.set(hash_utils.sha256_encrypt(k), v, ex=settings.REDIS_TTL)
 
 @lru_cache
-def get_rrgc_team():
-    return RoundRobinGroupChat(
-        participants=agent_list,
-        termination_condition=termination,
-    )
+def get_team():
+    return SQLGenerateRRGCTeam()
 
-if __name__ == '__main__':
-    import asyncio
-    async def main():
-        await Console(
-            get_rrgc_team().run_stream(task='查询id为1的员工的所有信息(id, 姓名, 年龄, 地址, 邮箱), 这本次对话中你可以省略表的结构当做单表查询')
-        )
-    asyncio.run(main())

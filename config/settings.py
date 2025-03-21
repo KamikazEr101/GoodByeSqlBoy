@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import Field,validator
 from pydantic_settings import BaseSettings
 from typing import Optional, List, Dict
 import os
@@ -23,8 +23,15 @@ class Settings(BaseSettings):
 
     # Agent配置
     OPENAI_API_KEY: str = Field(default="")
-    ENABLE_CRITIC_AGENT: bool = Field(default=True)
     ENABLE_OPTIMIZE_AGENT: bool = Field(default=True)
+
+    # Team配置
+    ENABLE_SELECTOR_TEAM: bool = Field(default=False)
+    MAX_CONTEXT_MESSAGES: int = Field(default=6)
+
+    @validator('MAX_CONTEXT_MESSAGES')
+    def ensure_min_max_context_messages(cls, v):
+        return max(v, 6)
 
     # 性能调优
     MAX_RETRIES: int = Field(default=3)
@@ -34,6 +41,8 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = True
+
+    SQL_FILE_PATH: str = Field(default="resource")
 
 @lru_cache
 def get_settings():
